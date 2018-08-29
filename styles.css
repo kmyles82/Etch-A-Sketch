@@ -1,9 +1,13 @@
+body{
+    position: relative;
+}
+
 #container{
     background: blue;
     width: 512px;
     height: 512px;
     margin: 0 auto;
-    
+    margin-top: 5%;
 }
 
 .grid{
@@ -13,5 +17,9 @@
     margin: 0;
     padding: 0;
     float: left;
+}
+
+#reset{
     
+    margin-left: 35%;
 }
