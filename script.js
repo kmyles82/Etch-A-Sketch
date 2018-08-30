@@ -1,55 +1,54 @@
-//Create and append container div to body
-const body = document.querySelector('body');
-const container = document.createElement('div');
-container.id = 'container'
-const button = document.createElement('button')
-button.id = 'reset'
-button.textContent = 'Reset Grid'
-body.appendChild(button)
-body.appendChild(container);
+let size = 16;
+const container = document.querySelector('.grid');
+const colorPicker = document.querySelector('#color');
 
-//create and append grid divs to container div
-const createGrid = function (num) {
-    let num_squares = num
-    for (var j = 1; j <= num_squares; j++) {
-        const grid = document.createElement('div');
-        grid.className = 'grid';
-        grid.id = 'grid' + j;
-        container.appendChild(grid);
-       
-        grid.addEventListener('click', function (e) {
-            this.style.background = 'black';
-          });
-      
-        grid.addEventListener('mousemove', function (e) {
-        //left mouse button down
-            if (e.buttons == 1) {
-            console.log(e)
-            this.style.background = 'black';
-        }
-        //right mouse button down
-        if (e.buttons == 2) {
-            this.style.background = 'blue';
-        }
-        });
-    }
+function grid() {
+
+  for (let i = 0; i < size * size; i++) {
+    let newDiv = document.createElement('div');
+    container.appendChild(newDiv).classList.add('grid-item');
+
+    const gridItem = document.querySelectorAll('.grid-item')[i];
+    gridItem.style.height = (600 / size) + "px";
+    gridItem.style.width = (600 / size) + "px";
+
+    document.querySelector('.info').textContent = `${size} x ${size}`;
+
+    gridItem.addEventListener('click', function (e) {
+      this.style.background = colorPicker.value;
+    });
+
+    gridItem.addEventListener('mousemove', function (e) {
+      //left mouse button down
+      if (e.buttons == 1) {
+        this.style.background = colorPicker.value;
+      }
+      //right mouse button down
+      if (e.buttons == 2) {
+        this.style.background = '#ffffff30';
+      }
+    });
+  }
+
 }
- //resets the grids
- let clearGrid = document.querySelector('#reset');
- clearGrid.addEventListener('click', function () {
-    let grids = prompt("how many");
-    layoutGrid(grids) 
-}) 
- 
-//layout grid across entire canvas equally
-const layoutGrid = function (num) { 
-    for (var i = 0; i < num; i++){
-        createGrid(num);
+
+grid();
+
+let resize = document.getElementById('resize');
+resize.addEventListener('click', function (e) {
+  container.innerHTML = "";
+  size = parseInt(prompt('what size do you want?'))
+  grid();
+})
+
+let reset = document.getElementById('reset');
+reset.addEventListener('click', function (e) {
+  if (confirm('are you sure?')) {
+    
+    while(container.firstChild) {
+      container.removeChild(container.firstChild);
     }
-}
-layoutGrid(16)
-
-
-
-
-
+    
+    grid();
+  }
+})
